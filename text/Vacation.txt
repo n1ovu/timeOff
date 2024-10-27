@@ -1,0 +1,6 @@
+{
+    "vacation": 14,
+    "floaters": 4,
+    "sick": 7,
+    "fmla": 60   
+}
