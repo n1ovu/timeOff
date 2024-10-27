@@ -29,19 +29,6 @@ function takeFMLA() {
   localStorage.setItem("fmlaDays", fmlaDays.innerHTML)
 }
 
-// function to read the file
-// function readFile() {
-//   let count = localStorage.setItem("count", 1)
-//   if (localStorage.getItem(count) > 0) {
-//     console.log(count)
-//     return
-//   }
-//   fetch("./text/Vacation.txt").then((response) => response.text())
-//   // .then((text) => console.log(text))
-//   // localStorage.setItem("count", 1)
-//   console.log(count)
-// }
-
 // event listener for each button
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
