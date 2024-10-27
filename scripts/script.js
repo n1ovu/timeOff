@@ -5,6 +5,11 @@ const floaterDays = document.querySelector(".float-days")
 const sickDays = document.querySelector(".sick-days")
 const fmlaDays = document.querySelector(".fmla")
 
+// vacationDays.textContent = localStorage.getItem("vacationDays")
+// floaterDays.textContent = localStorage.getItem("floaterDays")
+// sickDays.textContent = localStorage.getItem("sickDays")
+// fmlaDays.textContent = localStorage.getItem("fmlaDays")
+
 // function to take a vacation day
 function takeVacation() {
   if (parseInt(vacationDays.textContent) === 0) {
