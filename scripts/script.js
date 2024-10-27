@@ -7,24 +7,40 @@ const fmlaDays = document.querySelector(".fmla")
 
 // function to take a vacation day
 function takeVacation() {
+  if (parseInt(vacationDays.textContent) === 0) {
+    alert("You have no vacation days left!")
+    return
+  }
   vacationDays.textContent = parseInt(vacationDays.textContent) - 1
   localStorage.setItem("vacationDays", vacationDays.textContent)
 }
 
 // function to take a floater day
 function takeFloater() {
+  if (parseInt(floaterDays.textContent) === 0) {
+    alert("You have no floater days left!")
+    return
+  }
   floaterDays.textContent = parseInt(floaterDays.textContent) - 1
   localStorage.setItem("floaterDays", floaterDays.textContent)
 }
 
 // function to take a sick day
 function takeSickDay() {
+  if (parseInt(sickDays.textContent) === 0) {
+    alert("You have no paid sick days left!")
+    return
+  }
   sickDays.textContent = parseInt(sickDays.textContent) - 1
   localStorage.setItem("sickDays", sickDays.textContent)
 }
 
 // function to take a FMLA day
 function takeFMLA() {
+  if (parseInt(fmlaDays.textContent) === 0) {
+    alert("You have no FMLA days left!")
+    return
+  }
   fmlaDays.textContent = parseInt(fmlaDays.textContent) - 1
   localStorage.setItem("fmlaDays", fmlaDays.textContent)
 }
