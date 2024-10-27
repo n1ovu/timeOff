@@ -7,38 +7,38 @@ const fmlaDays = document.querySelector(".fmla")
 
 // function to take a vacation day
 function takeVacation() {
-  vacationDays.innerHTML = parseInt(vacationDays.innerHTML) - 1
-  localStorage.setItem("vacationDays", vacationDays.innerHTML)
+  vacationDays.textContent = parseInt(vacationDays.textContent) - 1
+  localStorage.setItem("vacationDays", vacationDays.textContent)
 }
 
 // function to take a floater day
 function takeFloater() {
-  floaterDays.innerHTML = parseInt(floaterDays.innerHTML) - 1
-  localStorage.setItem("floaterDays", floaterDays.innerHTML)
+  floaterDays.textContent = parseInt(floaterDays.textContent) - 1
+  localStorage.setItem("floaterDays", floaterDays.textContent)
 }
 
 // function to take a sick day
 function takeSickDay() {
-  sickDays.innerHTML = parseInt(sickDays.innerHTML) - 1
-  localStorage.setItem("sickDays", sickDays.innerHTML)
+  sickDays.textContent = parseInt(sickDays.textContent) - 1
+  localStorage.setItem("sickDays", sickDays.textContent)
 }
 
 // function to take a FMLA day
 function takeFMLA() {
-  fmlaDays.innerHTML = parseInt(fmlaDays.innerHTML) - 1
-  localStorage.setItem("fmlaDays", fmlaDays.innerHTML)
+  fmlaDays.textContent = parseInt(fmlaDays.textContent) - 1
+  localStorage.setItem("fmlaDays", fmlaDays.textContent)
 }
 
 // event listener for each button
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    if (button.innerHTML === "Take Vacation") {
+    if (button.textContent === "Take Vacation") {
       takeVacation()
-    } else if (button.innerHTML === "Take Floater") {
+    } else if (button.textContent === "Take Floater") {
       takeFloater()
-    } else if (button.innerHTML === "Take Sick") {
+    } else if (button.textContent === "Take Sick") {
       takeSickDay()
-    } else if (button.innerHTML === "Take FMLA") {
+    } else if (button.textContent === "Take FMLA") {
       takeFMLA()
     }
   })
