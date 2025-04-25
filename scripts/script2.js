@@ -1,66 +1,89 @@
-// grab all the elements that we need to manipulate
+// Function to set a cookie
+function setCookie(name, value, days) {
+  const expires = new Date()
+  expires.setDate(expires.getDate() + days)
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`
+}
+
+// Function to get a cookie value
+function getCookie(name) {
+  const cookies = document.cookie.split("; ")
+  for (let cookie of cookies) {
+    const [key, value] = cookie.split("=")
+    if (key === name) return value
+  }
+  return null
+}
+
+// Function to check and reset leave days based on date
+function resetDays() {
+  const today = new Date()
+  const currentYear = today.getFullYear()
+
+  // Retrieve last reset year from cookies
+  const lastResetYear = getCookie("lastResetYear")
+
+  if (!lastResetYear || parseInt(lastResetYear) < currentYear) {
+    // January 1 reset for floater and sick days
+    if (today.getMonth() === 0 && today.getDate() === 1) {
+      setCookie("floaterDays", 5, 365) // Set default floater days
+      setCookie("sickDays", 10, 365) // Set default sick days
+    }
+
+    // June 1 reset for vacation days
+    if (today.getMonth() === 5 && today.getDate() === 1) {
+      setCookie("vacationDays", 15, 365) // Set default vacation days
+    }
+
+    // Store the last reset year
+    setCookie("lastResetYear", currentYear, 365)
+  }
+}
+
+// Grab all the elements
 const buttons = document.querySelectorAll(".button")
-const vacationDays = document.querySelector(".vaca-days")
-const floaterDays = document.querySelector(".float-days")
-const sickDays = document.querySelector(".sick-days")
-const fmlaDays = document.querySelector(".fmla")
-
-// vacationDays.textContent = localStorage.getItem("vacationDays")
-// floaterDays.textContent = localStorage.getItem("floaterDays")
-// sickDays.textContent = localStorage.getItem("sickDays")
-// fmlaDays.textContent = localStorage.getItem("fmlaDays")
-
-// function to take a vacation day
-function takeVacation() {
-  if (parseInt(vacationDays.textContent) === 0) {
-    alert("You have no vacation days left!")
-    return
-  }
-  vacationDays.textContent = parseInt(vacationDays.textContent) - 1
-  localStorage.setItem("vacationDays", vacationDays.textContent)
+const dayTypes = {
+  vacation: document.querySelector(".vaca-days"),
+  floater: document.querySelector(".float-days"),
+  sick: document.querySelector(".sick-days"),
+  fmla: document.querySelector(".fmla"),
 }
 
-// function to take a floater day
-function takeFloater() {
-  if (parseInt(floaterDays.textContent) === 0) {
-    alert("You have no floater days left!")
+// Reset the values if necessary
+resetDays()
+
+// Initialize stored values from cookies
+Object.keys(dayTypes).forEach((type) => {
+  const savedDays = getCookie(`${type}Days`)
+  dayTypes[type].textContent =
+    savedDays !== null ? savedDays : dayTypes[type].textContent
+})
+
+// Generic function to take a day off
+function takeDayOff(type) {
+  let daysLeft = parseInt(dayTypes[type].textContent)
+
+  if (daysLeft === 0) {
+    alert(`You have no ${type} days left!`)
     return
   }
-  floaterDays.textContent = parseInt(floaterDays.textContent) - 1
-  localStorage.setItem("floaterDays", floaterDays.textContent)
+
+  daysLeft -= 1
+  dayTypes[type].textContent = daysLeft
+  setCookie(`${type}Days`, daysLeft, 30) // Store for 30 days
 }
 
-// function to take a sick day
-function takeSickDay() {
-  if (parseInt(sickDays.textContent) === 0) {
-    alert("You have no paid sick days left!")
-    return
-  }
-  sickDays.textContent = parseInt(sickDays.textContent) - 1
-  localStorage.setItem("sickDays", sickDays.textContent)
-}
-
-// function to take a FMLA day
-function takeFMLA() {
-  if (parseInt(fmlaDays.textContent) === 0) {
-    alert("You have no FMLA days left!")
-    return
-  }
-  fmlaDays.textContent = parseInt(fmlaDays.textContent) - 1
-  localStorage.setItem("fmlaDays", fmlaDays.textContent)
-}
-
-// event listener for each button
+// Event listener for each button
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    if (button.textContent === "Take Vacation") {
-      takeVacation()
-    } else if (button.textContent === "Take Floater") {
-      takeFloater()
-    } else if (button.textContent === "Take Sick") {
-      takeSickDay()
-    } else if (button.textContent === "Take FMLA") {
-      takeFMLA()
-    }
+    const type = button.textContent.toLowerCase().replace("take ", "")
+    if (dayTypes[type]) takeDayOff(type)
   })
 })
+
+// Function to reset all days to default values use in the console
+
+// document.cookie.split(";").forEach((cookie) => {
+//     document.cookie = cookie.replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
+//   });
+//   console.log("All cookies have been reset!");
